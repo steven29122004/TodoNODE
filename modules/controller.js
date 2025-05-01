@@ -27,3 +27,9 @@ exports.postInput = (req, res) => {
         res.json(404)
     }
 }
+
+exports.getStudentInfo = (req, res) => {
+    const { id } = req.params;
+    const studentInfo = student.find(item => item.id == id);
+    res.render('studentInfo', { studentInfo })
+}

@@ -21,7 +21,8 @@
             </button>
         </div>
         <% student.forEach(item=> {%>
-            <div class="flex justify-between bg-gray-50 border border-b-blue-900 p-4">
+            <div class="flex justify-between bg-gray-50 border border-b-blue-900 p-4"
+                onclick="window.location.href='/<%= item.id%>'">
                 <div>
                     <h1 class="py-3 text-bold italic text-lg font-medium text-gray-900">
                         <%= item.name %>
