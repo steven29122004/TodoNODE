@@ -1,20 +1,29 @@
-let product = [
+let student = [
     {
         id: 1,
         name: 'Steven',
+
+    },
+    {
+        id: 2,
+        name: 'Scarlett',
 
     }
 ]
 
 exports.getPage = (req, res) => {
-    res.render('index', { product })
+    res.render('index', { student })
 };
 
 exports.postInput = (req, res) => {
-    const { body } = req;
-    product.push({
-        id: Number(Math.random()),
-        ...body
-    })
-    res.json(200)
+    try {
+        const { body } = req;
+        student.push({
+            id: Number(Math.random()),
+            ...body,
+        })
+        res.json(200)
+    } catch (error) {
+        res.json(404)
+    }
 }

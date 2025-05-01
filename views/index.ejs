@@ -11,16 +11,16 @@
 <body class="bg-gray-500">
     <div class="mx-auto px-26 mt-15 ">
         <div class="relative">
-            <input type="text"
+            <input type="text" id="studentName"
                 class="w-full bg-gray-700 text-white placeholder:text-slate-400 text-slate-700 text-sm border rounded-md pl-3 pr-16 py-5 transition duration-300 ease shadow-sm focus:shadow"
                 placeholder="Input here" />
             <button
-                class="absolute right-3 top-4 rounded bg-slate-800 py-1 px-2.5 border border-transparent text-center text-sm text-white transition-all shadow-sm hover:shadow focus:bg-slate-700 focus:shadow-none active:bg-slate-700 hover:bg-slate-700 active:shadow-none disabled:pointer-events-none disabled:opacity-50 disabled:shadow-none"
-                type="button">
-                Invite
+                class="absolute right-3 top-4 rounded p-5 bg-slate-800 py-1 px-2.5 text-center text-sm text-white transition-all shadow-sm hover:shadow cursor-pointer hover:bg-slate-400 active:shadow-none disabled:pointer-events-none disabled:opacity-50 disabled:shadow-none"
+                type="button" id="submit">
+                Add
             </button>
         </div>
-        <% product.forEach(item=> {%>
+        <% student.forEach(item=> {%>
             <div class="flex justify-between bg-gray-50 border border-b-blue-900 p-4">
                 <div>
                     <h1 class="py-3 text-bold italic text-lg font-medium text-gray-900">
@@ -37,5 +37,29 @@
             <% })%>
     </div>
 </body>
+<script>
+    let NameofStudent = document.getElementById('studentName');
+
+    document.getElementById('submit').addEventListener('click', () => {
+        const body = JSON.stringify({
+            name: NameofStudent.value
+        });
+        fetch('http://localhost:3000/', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json; charset=UTF-8'
+            },
+            body,
+        }).then((res) => res.json())
+            .then((json) => {
+                if (json == 200) {
+                    window.location.href = '/'
+                } else {
+                    message("Server Internal Error");
+                }
+            });
+    })
+
+</script>
 
 </html>
