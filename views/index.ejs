@@ -21,9 +21,11 @@
             </button>
         </div>
         <% student.forEach(item=> {%>
-            <div class="flex justify-between bg-gray-50 border border-b-blue-900 p-4"
-                onclick="window.location.href='/<%= item.id%>'">
-                <div>
+            <h1 id="TodoID" class="hidden">
+                <%= item.id%>
+            </h1>
+            <div class="flex justify-between bg-gray-50 border border-b-blue-900 p-4">
+                <div onclick="window.location.href='/<%= item.id%>'">
                     <h1 class="py-3 text-bold italic text-lg font-medium text-gray-900">
                         <%= item.name %>
                     </h1>
@@ -32,7 +34,8 @@
                     <button
                         class="bg-white hover:bg-gray-100 text-gray-800 font-semibold py-2 px-4 border border-gray-400 rounded shadow">Edit</button>
                     <button
-                        class="bg-red-500 text-white hover:bg-gray-400 text-gray-800 font-bold py-2 px-4 rounded inline-flex items-center">Delete</button>
+                        class="bg-red-500 text-white hover:bg-gray-400 text-gray-800 font-bold py-2 px-4 cursor-pointer rounded inline-flex items-center"
+                        id="delete">Delete</button>
                 </div>
             </div>
             <% })%>
@@ -40,6 +43,8 @@
 </body>
 <script>
     let NameofStudent = document.getElementById('studentName');
+
+
 
     document.getElementById('submit').addEventListener('click', () => {
         const body = JSON.stringify({
@@ -60,6 +65,19 @@
                 }
             });
     })
+
+
+    document.getElementById('delete').addEventListener('click', () => {
+        fetch(`http://localhost:3000/${TodoID}`, {
+            method: 'DELETE',
+            headers: {
+                'Content-type': 'application/json; charset=UTF-8'
+            },
+        }).then((res) => res.json())
+            .then((json) => {
+                window.location.href = '/'
+            })
+    });
 
 </script>
 

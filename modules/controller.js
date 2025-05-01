@@ -33,3 +33,10 @@ exports.getStudentInfo = (req, res) => {
     const studentInfo = student.find(item => item.id == id);
     res.render('studentInfo', { studentInfo })
 }
+
+exports.delete = (req, res) => {
+    const { id } = req.params;
+    const index = student.findIndex(item => item.id == id);
+    student.splice(index, 1);
+    res.json(200);
+}
