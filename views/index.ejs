@@ -21,21 +21,23 @@
             </button>
         </div>
         <% student.forEach(item=> {%>
-            <h1 id="TodoID" class="hidden">
-                <%= item.id%>
-            </h1>
             <div class="flex justify-between bg-gray-50 border border-b-blue-900 p-4">
                 <div onclick="window.location.href='/<%= item.id%>'">
-                    <h1 class="py-3 text-bold italic text-lg font-medium text-gray-900">
-                        <%= item.name %>
-                    </h1>
+                    <div id="todoID">
+                        <%= item.id%>
+                    </div>
+                    <div>
+                        <h1 class="py-3 text-bold italic text-lg font-medium text-gray-900">
+                            <%= item.name %>
+                        </h1>
+                    </div>
                 </div>
                 <div class="">
                     <button
                         class="bg-white hover:bg-gray-100 text-gray-800 font-semibold py-2 px-4 border border-gray-400 rounded shadow">Edit</button>
                     <button
-                        class="bg-red-500 text-white hover:bg-gray-400 text-gray-800 font-bold py-2 px-4 cursor-pointer rounded inline-flex items-center"
-                        id="delete">Delete</button>
+                        class="delete-btn bg-red-500 text-white hover:bg-gray-400 text-gray-800 font-bold py-2 px-4 cursor-pointer rounded inline-flex items-center"
+                        data-id="<%= item.id%>">Delete</button>
                 </div>
             </div>
             <% })%>
@@ -47,6 +49,7 @@
 
 
     document.getElementById('submit').addEventListener('click', () => {
+
         const body = JSON.stringify({
             name: NameofStudent.value
         });
@@ -67,17 +70,26 @@
     })
 
 
-    document.getElementById('delete').addEventListener('click', () => {
-        fetch(`http://localhost:3000/${TodoID}`, {
-            method: 'DELETE',
-            headers: {
-                'Content-type': 'application/json; charset=UTF-8'
-            },
-        }).then((res) => res.json())
-            .then((json) => {
-                window.location.href = '/'
-            })
-    });
+
+    document.querySelectorAll('.delete-btn').forEach(btn => {
+        btn.addEventListener('click', () => {
+            const id = btn.getAttribute('data-id');
+            fetch(`http://localhost:3000/${id}`, {
+                method: 'DELETE',
+                headers: {
+                    'Content-Type': 'application/json; charset=UTF-8'
+                },
+            }).then((res) => res.json())
+                .then((json) => {
+                    if (json == 200) {
+                        window.location.href = '/'
+                    } else {
+                        message("Server Internal Error");
+                    }
+                })
+        })
+    })
+
 
 </script>
 
