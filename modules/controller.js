@@ -1,4 +1,4 @@
-let student = [
+let TodoList = [
     {
         id: 1,
         name: 'Steven',
@@ -12,13 +12,13 @@ let student = [
 ]
 
 exports.getPage = (req, res) => {
-    res.render('index', { student })
+    res.render('index', { TodoList })
 };
 
 exports.postInput = (req, res) => {
     try {
         const { body } = req;
-        student.push({
+        TodoList.push({
             id: Number(Math.random()),
             ...body,
         })
@@ -28,15 +28,15 @@ exports.postInput = (req, res) => {
     }
 }
 
-exports.getStudentInfo = (req, res) => {
+exports.getTodoListInfo = (req, res) => {
     const { id } = req.params;
-    const studentInfo = student.find(item => item.id == id);
-    res.render('studentInfo', { studentInfo })
+    const TodoListInfo = TodoList.find(item => item.id == id);
+    res.render('TodoListInfo', { TodoListInfo })
 }
 
 exports.delete = (req, res) => {
     const { id } = req.params;
-    const index = student.findIndex(item => item.id == id);
-    student.splice(index, 1);
+    const index = TodoList.findIndex(item => item.id == id);
+    TodoList.splice(index, 1);
     res.json(200);
 }
