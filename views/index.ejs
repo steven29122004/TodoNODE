@@ -9,9 +9,11 @@
 </head>
 
 <body class="bg-gray-500">
+
+
     <div class="mx-auto px-26 mt-15 ">
         <div class="relative">
-            <input type="text" id="studentName"
+            <input type="text" id="inputID"
                 class="w-full bg-gray-700 text-white placeholder:text-slate-400 text-slate-700 text-sm border rounded-md pl-3 pr-16 py-5 transition duration-300 ease shadow-sm focus:shadow"
                 placeholder="Input here" />
             <button
@@ -23,7 +25,7 @@
         <% TodoList.forEach(item=> {%>
             <div class="flex justify-between bg-gray-50 border border-b-blue-900 p-4">
                 <div onclick="window.location.href='/<%= item.id%>'">
-                    <div id="todoID">
+                    <div id="todoID" class="hidden">
                         <%= item.id%>
                     </div>
                     <div>
@@ -34,24 +36,27 @@
                 </div>
                 <div class="">
                     <button
-                        class="bg-white hover:bg-gray-100 text-gray-800 font-semibold py-2 px-4 border border-gray-400 rounded shadow">Edit</button>
+                        class="edit-btn cursor-pointer bg-white hover:bg-gray-100 text-gray-800 font-semibold py-2 px-4 border border-gray-400 rounded shadow"
+                        onclick="window.location.href='/?id=<%= item.id%>'">Edit</button>
                     <button
                         class="delete-btn bg-red-500 text-white hover:bg-gray-400 text-gray-800 font-bold py-2 px-4 cursor-pointer rounded inline-flex items-center"
                         data-id="<%= item.id%>">Delete</button>
                 </div>
             </div>
             <% })%>
+                <%- include('components/formedit')%>
     </div>
 </body>
 <script>
-    let NameofStudent = document.getElementById('studentName');
+    let Input = document.getElementById('inputID');
+
 
 
 
     document.getElementById('submit').addEventListener('click', () => {
 
         const body = JSON.stringify({
-            name: NameofStudent.value
+            name: Input.value
         });
         fetch('http://localhost:3000/', {
             method: 'POST',
@@ -64,10 +69,11 @@
                 if (json == 200) {
                     window.location.href = '/'
                 } else {
-                    message("Server Internal Error");
+                    alert('please input')
                 }
             });
     })
+
 
 
 

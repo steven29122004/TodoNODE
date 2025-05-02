@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <script src="https://cdn.jsdelivr.net/npm/@tailwindcss/browser@4"></script>
+</head>
+
+<body>
+
+    <form class="absolute top-16 right-150 mx-auto mt-15 bg-blue-200 p-10 rounded-lg">
+        <div class="mb-5">
+            <label for="text" class="block text-white mb-2 text-sm font-medium  dark:text-black">Input</label>
+            <input type="text" id="input"
+                class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
+                placeholder="" required />
+        </div>
+        <button type="submit"
+            class="text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm w-full sm:w-auto px-5 py-2.5 text-center dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800">Submit</button>
+    </form>
+</body>
+<script>
+    const params = new Proxy(new URLSearchParams(window.location.search), {
+        get: (searchParams, prop) => searchParams.get(prop),
+    });
+    const { id } = params;
+
+    let useredit = document.getElementById('input');
+
+
+    const fetchTodoAPI = () => {
+        fetch(`http://localhost:3000/api/${id}`, {
+            method: 'GET',
+            headers: {
+                'Content-Type': 'application/json; charset=UTF-8'
+            },
+        }).then((res) => res.json())
+            .then((json) => {
+                if (json.id) {
+                    useredit.value = json.name;
+                } else {
+                    message("Server Internal Error");
+                }
+            });
+
+    }
+    fetchTodoAPI();
+</script>
+
+</html>

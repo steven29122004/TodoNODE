@@ -14,6 +14,11 @@ let TodoList = [
 exports.getPage = (req, res) => {
     res.render('index', { TodoList })
 };
+exports.getForm = (req, res) => {
+    res.render('components/formedit')
+};
+
+
 
 exports.postInput = (req, res) => {
     try {
@@ -28,12 +33,19 @@ exports.postInput = (req, res) => {
     }
 }
 
+
 exports.getTodoListInfo = (req, res) => {
     const { id } = req.params;
     const TodoListInfo = TodoList.find(item => item.id == id);
     res.render('TodoListInfo', { TodoListInfo })
 }
 
+exports.getInputAPI = (req, res) => {
+    const { id } = req.params;
+    const TodoListInfo = TodoList.find(item => item.id == id);
+    res.json(TodoListInfo)
+
+}
 exports.delete = (req, res) => {
     const { id } = req.params;
     const index = TodoList.findIndex(item => item.id == id);
