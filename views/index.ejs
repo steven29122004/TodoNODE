@@ -35,7 +35,7 @@
                     </div>
                 </div>
                 <div class="">
-                    <button
+                    <button id="toggleEditPanel"
                         class="edit-btn cursor-pointer bg-white hover:bg-gray-100 text-gray-800 font-semibold py-2 px-4 border border-gray-400 rounded shadow"
                         onclick="window.location.href='/?id=<%= item.id%>'">Edit</button>
                     <button
@@ -49,6 +49,18 @@
 </body>
 <script>
     let Input = document.getElementById('inputID');
+
+
+    // const toggleEditPanel = document.querySelectorAll('#toggleEditPanel')
+    // const inputForm = document.getElementById('editForm')
+
+    // toggleEditPanel.addEventListener('click', () => {
+    //     if (inputForm.classList.contains('hidden')) {
+    //         inputForm.classList.remove('hidden')
+    //     } else {
+    //         inputForm.classList.add('hidden')
+    //     }
+    // })
 
 
 
@@ -75,7 +87,25 @@
     })
 
 
-
+    document.getElementById('Edit-Btn').addEventListener('click', () => {
+        const body = JSON.stringify({
+            name: useredit.value
+        });
+        fetch(`http://localhost:3000/edit/${id}`, {
+            method: 'PUT',
+            headers: {
+                'Content-Type': 'application/json; charset=UTF-8'
+            },
+            body,
+        }).then((res) => res.json())
+            .then((json) => {
+                if (json == 200) {
+                    window.location.href = '/'
+                } else {
+                    alert('please input')
+                }
+            });
+    })
 
     document.querySelectorAll('.delete-btn').forEach(btn => {
         btn.addEventListener('click', () => {

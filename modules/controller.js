@@ -15,7 +15,7 @@ exports.getPage = (req, res) => {
     res.render('index', { TodoList })
 };
 exports.getForm = (req, res) => {
-    res.render('components/formedit')
+    res.render('components/formedit', { TodoList })
 };
 
 
@@ -28,6 +28,18 @@ exports.postInput = (req, res) => {
             ...body,
         })
         res.json(200)
+    } catch (error) {
+        res.json(404)
+    }
+}
+
+exports.editInput = (req, res) => {
+    try {
+        const { body } = req;
+        const { id } = req.params;
+        const index = TodoList.findIndex(item => item.id == id)
+        TodoList[index].name = body.name;
+        res.json(200);
     } catch (error) {
         res.json(404)
     }
