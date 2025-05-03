@@ -58,6 +58,14 @@ exports.getInputAPI = (req, res) => {
     res.json(TodoListInfo)
 
 }
+
+exports.edit = (req, res) => {
+    const { id } = req.params;
+    const { body } = req;
+    const index = TodoList.findIndex(item => item.id == item);
+    TodoList[index].name = body.name;
+    res.json(200)
+}
 exports.delete = (req, res) => {
     const { id } = req.params;
     const index = TodoList.findIndex(item => item.id == id);

@@ -30,7 +30,7 @@
                         onclick="window.location.href='/<%= item.id%>'">
                         <%= item.name %>
                     </span>
-                    <input type="text"
+                    <input type="text" id="newInput" value="<%= item.name%>"
                         class="edit-input hidden bg-gray-100 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-gray-400 dark:focus:ring-blue-500 dark:focus:border-blue-500">
                 </div>
                 <div class="">
@@ -46,7 +46,6 @@
                 </div>
             </div>
             <% })%>
-                <!-- <%- include('components/formedit')%> -->
     </div>
 
     <!-- <br> -->
@@ -64,31 +63,16 @@
 </body>
 <script>
     let Input = document.getElementById('inputID');
-
-    // var tex = document.getElementById('text');
-    // var inp = document.getElementById('inp');
-    // var sub = document.getElementById('Sub')
-    // var sav = document.getElementById('Sav')
-
-    // const rminputandS = () => {
-    //     tex.classList.add('hidden');
-    //     inp.classList.remove('hidden')
-    //     sub.classList.add('hidden')
-    //     sav.classList.remove('hidden');
-
-    //     document.querySelector('#text').removeAttribute('onclick');
-    // }
+    const newInput = document.getElementById('newInput');
 
 
 
-    // const Saveb = () => {
-    //     tex.classList.remove('hidden');
-    //     inp.classList.add('hidden')
-    //     sub.classList.remove('hidden')
-    //     sav.classList.add('hidden');
 
-    //     document.querySelector('#text').setAttribute('onclick', "window.location.href = '/form'");
-    // }
+
+
+
+
+
 
     document.querySelectorAll('.edit-btn').forEach(btn => {
         btn.addEventListener('click', (e) => {
@@ -122,16 +106,30 @@
             const SaveButton = parent.querySelector('.save-btn');
             const clickable = parent.querySelector('#clickable');
 
-            content.classList.remove('hidden');
-            inputNew.classList.add('hidden');
-            editButton.classList.remove('hidden');
-            SaveButton.classList.add('hidden');
+            const id = parent.getAttribute('data-id');
+            fetch(`http://localhost:3000/edit/${id}`, {
+                method: 'PUT',
+                headers: {
+                    'Content-type': 'application/json; charset = UTF-8'
+                },
+                body: JSON.stringify({
+                    name: inputNew.value
+                })
+            })
+                .then((res) => res.json())
+                .then((json) => {
+                    content.textContent = inputNew.value;
+                    content.classList.remove('hidden');
+                    inputNew.classList.add('hidden');
+                    editButton.classList.remove('hidden');
+                    SaveButton.classList.add('hidden');
 
-            clickable.classList.remove('pointer-events-none');
+                    clickable.classList.remove('pointer-events-none');
+                })
 
         })
-
     })
+
 
 
     document.getElementById('submit').addEventListener('click', () => {
@@ -177,7 +175,30 @@
         })
     })
 
+    // var tex = document.getElementById('text');
+    // var inp = document.getElementById('inp');
+    // var sub = document.getElementById('Sub')
+    // var sav = document.getElementById('Sav')
 
+    // const rminputandS = () => {
+    //     tex.classList.add('hidden');
+    //     inp.classList.remove('hidden')
+    //     sub.classList.add('hidden')
+    //     sav.classList.remove('hidden');
+
+    //     document.querySelector('#text').removeAttribute('onclick');
+    // }
+
+
+
+    // const Saveb = () => {
+    //     tex.classList.remove('hidden');
+    //     inp.classList.add('hidden')
+    //     sub.classList.remove('hidden')
+    //     sav.classList.add('hidden');
+
+    //     document.querySelector('#text').setAttribute('onclick', "window.location.href = '/form'");
+    // }
 </script>
 
 </html>

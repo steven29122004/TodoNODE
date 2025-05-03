@@ -3,7 +3,6 @@ const router = express.Router();
 const Controller = require('./controller');
 
 router.get('/', Controller.getPage);
-router.get('/form', Controller.getForm);
 router.get('/api/:id', Controller.getInputAPI);
 
 router.post('/', Controller.postInput)
