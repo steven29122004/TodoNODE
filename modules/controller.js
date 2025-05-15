@@ -18,15 +18,19 @@ exports.postInput = async (req, res) => {
     }
 }
 
-exports.editInput = (req, res) => {
+exports.editInput = async (req, res) => {
     try {
         const { body } = req;
         const { id } = req.params;
-        const index = TodoList.findIndex(item => item.id == id)
-        TodoList[index].name = body.name;
-        res.json(200);
+        const editTodo = await TodoEntity.findByIdAndUpdate(id, {
+            name: body.name
+        })
+        if (!editTodo) {
+            res.json(new ResponseType(null).error())
+        }
+        res.json(new ResponseType(editTodo).success())
     } catch (error) {
-        res.json(404)
+        res.json(new ResponseType(null).error())
     }
 }
 
@@ -44,13 +48,7 @@ exports.getInputAPI = (req, res) => {
 
 }
 
-exports.edit = (req, res) => {
-    const { id } = req.params;
-    const { body } = req;
-    const index = todoList.findIndex(item => item.id == item);
-    todoList[index].name = body.name;
-    res.json(200)
-}
+
 exports.delete = async (req, res) => {
     try {
         const { id } = req.params;

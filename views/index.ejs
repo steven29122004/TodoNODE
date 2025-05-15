@@ -117,14 +117,17 @@
                 })
             })
                 .then((res) => res.json())
-                .then((json) => {
-                    content.textContent = inputNew.value;
-                    content.classList.remove('hidden');
-                    inputNew.classList.add('hidden');
-                    editButton.classList.remove('hidden');
-                    SaveButton.classList.add('hidden');
+                .then(({ code }) => {
+                    if (code == 200) {
+                        content.textContent = inputNew.value;
+                        content.classList.remove('hidden');
+                        inputNew.classList.add('hidden');
+                        editButton.classList.remove('hidden');
+                        SaveButton.classList.add('hidden');
 
-                    clickable.classList.remove('pointer-events-none');
+                        clickable.classList.remove('pointer-events-none');
+                    }
+
                 })
 
         })
