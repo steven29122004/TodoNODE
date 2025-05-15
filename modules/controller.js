@@ -1,35 +1,20 @@
-let TodoList = [
-    {
-        id: 1,
-        name: 'Steven',
+let todoList = [];
 
-    },
-    {
-        id: 2,
-        name: 'Scarlett',
-
-    }
-]
-
-exports.getPage = (req, res) => {
-    res.render('index', { TodoList })
+const TodoEntity = require('../model/todo.model');
+const ResponseType = require('../dto/response.type')
+exports.getPage = async (req, res) => {
+    const todo = await TodoEntity.find();
+    res.render('index', { todoList: todo })
 };
-exports.getForm = (req, res) => {
-    res.render('components/formedit', { TodoList })
-};
-
-
-
-exports.postInput = (req, res) => {
+exports.postInput = async (req, res) => {
     try {
-        const { body } = req;
-        TodoList.push({
-            id: Number(Math.random()),
-            ...body,
-        })
-        res.json(200)
+        const { body: { name } } = req;
+        const postStuff = new TodoEntity({ name });
+        await postStuff.save();
+        res.json(new ResponseType(true).success())
     } catch (error) {
-        res.json(404)
+        console.log(`error ${error}`)
+        res.json(new ResponseType(false).error())
     }
 }
 
@@ -48,13 +33,13 @@ exports.editInput = (req, res) => {
 
 exports.getTodoListInfo = (req, res) => {
     const { id } = req.params;
-    const TodoListInfo = TodoList.find(item => item.id == id);
+    const TodoListInfo = todoListodoList.find(item => item.id == id);
     res.render('TodoListInfo', { TodoListInfo })
 }
 
 exports.getInputAPI = (req, res) => {
     const { id } = req.params;
-    const TodoListInfo = TodoList.find(item => item.id == id);
+    const TodoListInfo = todoList.find(item => item.id == id);
     res.json(TodoListInfo)
 
 }
@@ -62,13 +47,13 @@ exports.getInputAPI = (req, res) => {
 exports.edit = (req, res) => {
     const { id } = req.params;
     const { body } = req;
-    const index = TodoList.findIndex(item => item.id == item);
-    TodoList[index].name = body.name;
+    const index = todoList.findIndex(item => item.id == item);
+    todoList[index].name = body.name;
     res.json(200)
 }
 exports.delete = (req, res) => {
     const { id } = req.params;
-    const index = TodoList.findIndex(item => item.id == id);
-    TodoList.splice(index, 1);
+    const index = todoList.findIndex(item => item.id == id);
+    todoList.splice(index, 1);
     res.json(200);
 }
