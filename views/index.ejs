@@ -165,8 +165,8 @@
                     'Content-Type': 'application/json; charset=UTF-8'
                 },
             }).then((res) => res.json())
-                .then((json) => {
-                    if (json == 200) {
+                .then(({ code }) => {
+                    if (code == 200) {
                         window.location.href = '/'
                     } else {
                         message("Server Internal Error");

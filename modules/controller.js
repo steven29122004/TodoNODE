@@ -51,9 +51,16 @@ exports.edit = (req, res) => {
     todoList[index].name = body.name;
     res.json(200)
 }
-exports.delete = (req, res) => {
-    const { id } = req.params;
-    const index = todoList.findIndex(item => item.id == id);
-    todoList.splice(index, 1);
-    res.json(200);
+exports.delete = async (req, res) => {
+    try {
+        const { id } = req.params;
+        const deleteStuff = await TodoEntity.findByIdAndDelete(id);
+        if (!deleteStuff) {
+            res.json(new ResponseType(false).error())
+        }
+        res.json(new ResponseType(true).success())
+    } catch (error) {
+        res.json(new ResponseType(false).error())
+    }
+
 }
