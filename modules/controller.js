@@ -31,10 +31,10 @@ exports.editInput = (req, res) => {
 }
 
 
-exports.getTodoListInfo = (req, res) => {
+exports.getTodoListInfo = async (req, res) => {
     const { id } = req.params;
-    const TodoListInfo = todoListodoList.find(item => item.id == id);
-    res.render('TodoListInfo', { TodoListInfo })
+    const detailTodo = await TodoEntity.findById(id)
+    res.render('TodoListInfo', { detailTodo })
 }
 
 exports.getInputAPI = (req, res) => {
